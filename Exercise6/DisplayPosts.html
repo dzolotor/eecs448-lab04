@@ -1,0 +1,55 @@
+<html>
+
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+
+<body>
+
+    <form action="DisplayPosts.php" method="post">
+        
+        View all posts from user 
+        <select name="getUser">
+
+            <?php
+
+            $mysqli = new mysqli("mysql.eecs.ku.edu", "d880z956", "uxo3ohz9", "d880z956");
+
+            /* check connection */
+            if ($mysqli->connect_errno) {
+                printf("Connect failed: %s\n", $mysqli->connect_error);
+                exit();
+            }
+
+            $query = "SELECT * FROM Users;";
+            $result = $mysqli->query($query);
+
+            if($result->num_rows > 0)
+            {
+                echo "+---------+ <br>";
+                echo "| user_id | <br>";
+                echo "+---------+ <br>";
+                while($row = $result->fetch_assoc())
+                {
+                    echo "| " . $row["user_id"] . " |<br>";
+                    echo "<option value=" . $row['user_id'] . ">" . $row['user_id'] . "</option>";
+                }
+            } else {
+                //echo "NO USERS!";
+            }
+
+            $mysqli->close();
+
+            ?>
+
+        </select>
+
+        <br>
+        <br>
+
+        <input type="submit" name="getPosts">       
+
+    </form>
+</body>
+</html> 
+

@@ -1,0 +1,52 @@
+<html>
+
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+
+<body>
+
+    <form action="DeletePost.php" method="post">
+        <?php
+        //<input type="checkbox" name="vehicle1" value="Bike">
+
+        $num = 0;
+        $mysqli = new mysqli("mysql.eecs.ku.edu", "d880z956", "uxo3ohz9", "d880z956");
+
+        /* check connection */
+        if ($mysqli->connect_errno) {
+            printf("Connect failed: %s\n", $mysqli->connect_error);
+            exit();
+        }
+
+        $query = "SELECT * FROM Posts;";
+        $result = $mysqli->query($query);
+
+        if($result->num_rows > 0)
+        {
+            echo "+----------------------------------+ <br>";
+            echo "| Delete? | author_id | content | <br>";
+            echo "+----------------------------------+ <br>";
+
+
+            while($row = $result->fetch_assoc())
+            {
+                $val = "| " . $row["author_id"] . " | " . $row["content"] . " | <br>";
+                echo '<input type="checkbox" name="chk[]" value="' . $val . '">' . $val;
+                $num = $num + 1;
+            }
+
+        } else {
+            echo "NO USERS!";
+        }
+
+        $mysqli->close();
+
+        ?>
+        <br>
+        
+        <input type="submit" value="Delete">
+    </form>
+</body>
+</html> 
+
